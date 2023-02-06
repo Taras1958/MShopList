@@ -1,7 +1,8 @@
-package ru.stambul4you.mshoplist
+package ru.stambul4you.mshoplist.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import ru.stambul4you.mshoplist.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
