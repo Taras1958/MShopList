@@ -2,19 +2,14 @@ package ru.stambul4you.mshoplist.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import ru.stambul4you.mshoplist.R
-import ru.stambul4you.mshoplist.domain.ShopItem
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
-    private lateinit var adapter: ShopListAdapter
+    private lateinit var shopListadapter: ShopListAdapter
 
 
         override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,13 +18,21 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView()
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.shopList.observe(this) {
-                adapter.ShopList = it
+                shopListadapter.shopList = it
         }
 
     }
             private fun setupRecyclerView(){
                 val rvShopList = findViewById<RecyclerView>(R.id.rv_shop_list)
-                adapter = ShopListAdapter()
-                rvShopList.adapter = adapter
+                with(rvShopList) {
+                shopListadapter = ShopListAdapter()
+                adapter = shopListadapter
+                recycledViewPool.setMaxRecycledViews(
+                    ShopListAdapter.VIEW_TYPE_ENABLED,
+                    ShopListAdapter.MAX_POOL_SIZE)
+                recycledViewPool.setMaxRecycledViews(
+                    ShopListAdapter.VIEW_TYPE_DISABLED,
+                    ShopListAdapter.MAX_POOL_SIZE)
+                }
             }
 }
