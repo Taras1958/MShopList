@@ -23,7 +23,7 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewHolder {
-            Log.d("MyLog", "onCreateViewHolder, count: ${++count}")
+
 
         val layout = when (viewType) {
             VIEW_TYPE_DISABLED -> R.layout.item_shop_disabled
@@ -38,14 +38,12 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
         return ShopItemViewHolder(view)
     }
 
-    override fun onBindViewHolder(
-        viewHolder: ShopItemViewHolder,
-        position: Int
-    ) {
+    override fun onBindViewHolder(viewHolder: ShopItemViewHolder, position: Int) {
+
+        Log.d("MyLog", "onBindViewHolder, count: ${++count}")
+
         val shopItem = shopList[position]
-
         viewHolder.view.setOnLongClickListener {
-
             onShopItemLongClickListener?.invoke(shopItem)
             true
         }
