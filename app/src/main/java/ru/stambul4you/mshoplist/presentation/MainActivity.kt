@@ -12,7 +12,7 @@ import ru.stambul4you.mshoplist.domain.ShopItem
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
-    private lateinit var shopListadapter: ShopListAdapter
+    private lateinit var shopListAdapter: ShopListAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView()
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.shopList.observe(this) {
-            shopListadapter.shopList = it
+            shopListAdapter.submitList(it)
         }
 
     }
@@ -29,8 +29,8 @@ class MainActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         val rvShopList = findViewById<RecyclerView>(R.id.rv_shop_list)
         with(rvShopList) {
-            shopListadapter = ShopListAdapter()
-            adapter = shopListadapter
+            shopListAdapter = ShopListAdapter()
+            adapter = shopListAdapter
             recycledViewPool.setMaxRecycledViews(
                 ShopListAdapter.VIEW_TYPE_ENABLED,
                 ShopListAdapter.MAX_POOL_SIZE
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val item = shopListadapter.shopList[viewHolder.adapterPosition]
+                val item = shopListAdapter.currentList[viewHolder.adapterPosition]
                 viewModel.deleteShopItem(item)
             }
 
@@ -71,13 +71,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupClickListener() {
-        shopListadapter.onShopItemClickListener = {
+        shopListAdapter.onShopItemClickListener = {
             Log.d("MyActivity", it.toString())
         }
     }
 
     private fun setupLongClickListener() {
-        shopListadapter.onShopItemLongClickListener = {
+        shopListAdapter.onShopItemLongClickListener = {
             viewModel.changeEnableState(it)
         }
     }
